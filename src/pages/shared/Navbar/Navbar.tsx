@@ -1,54 +1,48 @@
+import { Link } from "react-router-dom";
+import { MenuLinks } from "./MenuLinks";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerTrigger,
+} from "../../../components/ui/Drawer";
+import { IoMenu } from "react-icons/io5";
+import { AiOutlineCloseSquare } from "react-icons/ai";
+
 const Navbar = () => {
   return (
-    <div className="navbar bg-base-100">
-      <div className="navbar-start">
-        <div className="dropdown">
-          <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M4 6h16M4 12h8m-8 6h16"
-              />
-            </svg>
-          </div>
-          <ul
-            tabIndex={0}
-            className="menu menu-sm dropdown-content bg-base-100 rounded-box z-[1] mt-3 w-52 p-2 shadow"
-          >
-            <li>
-              <a>Item 1</a>
-            </li>
-            <li>
-              <a>Parent</a>
-              <ul className="p-2">
-                <li>
-                  <a>Submenu 1</a>
-                </li>
-                <li>
-                  <a>Submenu 2</a>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <a>Item 3</a>
-            </li>
-          </ul>
-        </div>
-        <a className="btn btn-ghost text-xl">AutoMobile Wash</a>
+    <div className="h-[60px] flex justify-between items-center bg-slate-100 lg:px-[60px] px-5 py-2 text-primary">
+      <Link to={"/"} className="flex gap-x-2 items-center">
+        <p className="text-3xl font-bold">
+          <span className="text-green-500">Car</span>{" "}
+          <span className="text-red-500">Wash</span>
+        </p>
+      </Link>
+      <div className="md:flex items-center gap-x-3 font-medium hidden">
+        {MenuLinks?.map((menu, idx) => (
+          <Link key={idx} to={menu?.path}>
+            {menu?.name}
+          </Link>
+        ))}
       </div>
-      <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1"></ul>
-      </div>
-      <div className="navbar-end">
-        <a className="btn">Log In</a>
+      <div className="md:hidden block">
+        <Drawer direction="right">
+          <DrawerTrigger>
+            <IoMenu className="text-2xl" />{" "}
+          </DrawerTrigger>
+          <DrawerContent className="right-0 top-0 mt-0 ms-[200px] rounded-r-none">
+            <DrawerClose className="flex justify-end m-2">
+              <AiOutlineCloseSquare className=" text-3xl p-1" />
+            </DrawerClose>
+            <div className="flex flex-col w-[200px] gap-y-3 font-medium px-4 ">
+              {MenuLinks?.map((menu, idx) => (
+                <Link key={idx} to={menu?.path}>
+                  {menu?.name}
+                </Link>
+              ))}
+            </div>
+          </DrawerContent>
+        </Drawer>
       </div>
     </div>
   );
