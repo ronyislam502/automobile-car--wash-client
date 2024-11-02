@@ -71,7 +71,7 @@ const AddSlot = () => {
               <Form className="space-y-5">
                 <Dropdown
                   name="service"
-                  options={servicesToDropdownOption(servicesData.data)}
+                  options={servicesToDropdownOpti(servicesData.data)}
                   setFieldValue={setFieldValue}
                   placeholder="Select service"
                 />
