@@ -5,7 +5,7 @@ import {
 } from "react-icons/fa";
 import { IoLogoYoutube } from "react-icons/io5";
 import { Link } from "react-router-dom";
-import { MenuLinks } from "../Navbar/MenuLinks";
+import { MenuLinks } from "../../../utilities/list";
 
 const Footer = () => {
   return (
