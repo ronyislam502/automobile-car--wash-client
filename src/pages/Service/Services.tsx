@@ -1,4 +1,4 @@
-const Service = () => {
+const Services = () => {
   return (
     <div>
       <h1>this is service page</h1>
@@ -6,4 +6,4 @@ const Service = () => {
   );
 };
 
-export default Service;
+export default Services;
