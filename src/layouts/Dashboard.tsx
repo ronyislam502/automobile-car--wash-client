@@ -16,6 +16,7 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "../components/ui/Accordion";
+import Navbar from "../pages/shared/Navbar/Navbar";
 
 type TRoute = {
   path: string;
@@ -115,6 +116,7 @@ const Dashboard = () => {
 
   return (
     <div className="">
+      <Navbar />
       <div className="flex">
         <div>
           {/* Desktop Sidebar */}

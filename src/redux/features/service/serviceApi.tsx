@@ -16,6 +16,7 @@ const serviceApi = baseApi.injectEndpoints({
           params: params,
         };
       },
+      providesTags: ["service"],
       transformResponse: (response: TResponseRedux<TService[]>) => {
         return {
           data: response.data,

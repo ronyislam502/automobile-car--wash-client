@@ -1,9 +1,78 @@
-import { useGetAllServicesQuery } from "../../../../redux/features/service/serviceApi";
+import { toast } from "sonner";
+import FormikForm from "../../../../components/Formik/FormikForm";
+import Input from "../../../../components/Formik/Input";
+import { useState } from "react";
 import { TService } from "../../../../types";
+import {
+  useDeleteServiceMutation,
+  useGetAllServicesQuery,
+  useUpdateServiceMutation,
+} from "../../../../redux/features/service/serviceApi";
+import { TError } from "../../../../types/global";
 import AddService from "./ServiceCompo/AddService";
+import Modal from "../../../../components/shared/Modal";
+
+type TInitialValues = {
+  name: string;
+  description: string;
+  price: number;
+  duration: number;
+};
 
 const ServiceManagement = () => {
+  const [isServiceDeleteModalOpen, setServiceDeleteModalOpen] = useState(false);
+  const [isServiceUpdateModalOpen, setServiceUpdateModalOpen] = useState(false);
+  const [serviceId, setServiceId] = useState("");
+  const [serviceDetails, setServiceDetails] = useState<TService | null>(null);
   const { data: services } = useGetAllServicesQuery(undefined);
+  const [deleteService] = useDeleteServiceMutation();
+  const [serviceData] = useUpdateServiceMutation();
+
+  const handleServiceDelete = async (_id: string) => {
+    setServiceDeleteModalOpen(false);
+    const toastId = toast.loading("Service deleting");
+    try {
+      const res = await deleteService(_id).unwrap();
+      console.log(res);
+      toast?.success("Service deleted", { id: toastId });
+    } catch (error) {
+      console.log(error);
+      toast.error("Something went wrong", { id: toastId });
+    }
+  };
+
+  const serviceUpdateInitialValues = {
+    name: serviceDetails?.name || "",
+    description: serviceDetails?.description || "",
+    price: serviceDetails?.price || 0,
+    duration: serviceDetails?.duration || 0,
+  };
+
+  const handleServiceUpdate = async (values: TInitialValues) => {
+    console.log(values);
+    if (!serviceDetails) {
+      // Handle the case where serviceDetails is null
+      toast.error("Service details are not available.", { duration: 2000 });
+      return;
+    }
+    setServiceUpdateModalOpen(false);
+    const toastId = toast.loading("Service updating");
+    try {
+      const response = await serviceData({
+        serviceData: values,
+        id: serviceDetails._id,
+      }).unwrap();
+      console.log(response);
+      toast.success(response.message, { id: toastId, duration: 2000 });
+    } catch (error) {
+      console.log(error);
+      const err = error as TError;
+      toast.error(err?.data?.message, {
+        id: toastId,
+        duration: 2000,
+      });
+    }
+  };
 
   return (
     <div>
@@ -16,7 +85,7 @@ const ServiceManagement = () => {
               <th>Name</th>
               <th>Description</th>
               <th>Price</th>
-              <th>Duration(mins)</th>
+              <th>Duration</th>
               <th>EDIT</th>
               <th>Action</th>
             </tr>
@@ -29,14 +98,26 @@ const ServiceManagement = () => {
                 <td>{service?.name}</td>
                 <td>{service?.description}</td>
                 <td>$ {service?.price}</td>
-                <td>{service.duration}</td>
+                <td>{service.duration} min</td>
                 <td>
-                  <button className="btn btn-outline btn-accent btn-sm">
+                  <button
+                    onClick={() => {
+                      setServiceDetails(service);
+                      setServiceUpdateModalOpen(true);
+                    }}
+                    className="btn btn-outline btn-accent btn-sm"
+                  >
                     Update
                   </button>
                 </td>
                 <td>
-                  <button className="btn btn-outline btn-error btn-sm">
+                  <button
+                    onClick={() => {
+                      setServiceDeleteModalOpen(true);
+                      setServiceId(service._id);
+                    }}
+                    className="btn btn-outline btn-error btn-sm"
+                  >
                     Delete
                   </button>
                 </td>
@@ -45,6 +126,55 @@ const ServiceManagement = () => {
           </tbody>
         </table>
       </div>
+      {/* update service modal */}
+      <Modal
+        isOpen={isServiceUpdateModalOpen}
+        setIsOpen={setServiceUpdateModalOpen}
+      >
+        <FormikForm
+          initialValues={serviceUpdateInitialValues}
+          onSubmit={handleServiceUpdate}
+        >
+          <Input name="name" label="Name" />
+          <Input name="description" label="Description" />
+          <Input name="price" label="Price" type="number" />
+          <Input name="duration" label="Duration" type="number" />
+          <div className="text-center">
+            <button
+              type="submit"
+              className="btn btn-outline btn-success w-full"
+            >
+              Submit
+            </button>
+          </div>
+        </FormikForm>
+      </Modal>
+      {/* update service modal */}
+      {/* delete service */}
+      <Modal
+        isOpen={isServiceDeleteModalOpen}
+        setIsOpen={setServiceDeleteModalOpen}
+      >
+        <div className="flex flex-col items-center w-full p-6">
+          <h2 className="text-2xl font-semibold">Are you sure?</h2>
+          <h3 className="text-4xl font-medium">You want to delete it?</h3>
+          <div className="flex justify-between mt-5 w-full px-6">
+            <button
+              onClick={() => setServiceDeleteModalOpen(false)}
+              className="btn btn-outline btn-warning"
+            >
+              Cancel
+            </button>
+            <button
+              onClick={() => handleServiceDelete(serviceId)}
+              className="btn btn-outline btn-error"
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      </Modal>
+      {/* delete service */}
     </div>
   );
 };
