@@ -1,5 +1,5 @@
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "sonner";
-import { useAppDispatch, useAppSelector } from "../../redux/hooks";
 import { RootState } from "../../redux/store";
 import {
   clearComparisonList,
@@ -8,9 +8,9 @@ import {
 import SectionTitle from "../../components/shared/SectionTitle";
 import { TService } from "../../types";
 
-const ServiceCompare = () => {
-  const dispatch = useAppDispatch();
-  const selectedServices = useAppSelector(
+const ServiceCompare: React.FC = () => {
+  const dispatch = useDispatch();
+  const selectedServices = useSelector(
     (state: RootState) => state.serviceComparison.selectedServices
   );
 
