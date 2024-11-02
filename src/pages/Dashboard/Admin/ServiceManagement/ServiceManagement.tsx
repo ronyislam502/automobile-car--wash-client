@@ -1,11 +1,13 @@
 import { useGetAllServicesQuery } from "../../../../redux/features/service/serviceApi";
 import { TService } from "../../../../types";
+import AddService from "./ServiceCompo/AddService";
 
 const ServiceManagement = () => {
   const { data: services } = useGetAllServicesQuery(undefined);
-  console.log(services);
+
   return (
     <div>
+      <AddService />
       <div className="overflow-x-auto px-6">
         <table className="table table-zebra">
           <thead>
