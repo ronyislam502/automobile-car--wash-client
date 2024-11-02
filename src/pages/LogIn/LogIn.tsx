@@ -25,7 +25,7 @@ const LogIn = () => {
         password: data.password,
       };
       const res = await logIn(userInfo).unwrap();
-      console.log(res);
+      //   console.log(res);
       const user = verifyToken(res?.data.accessToken) as TUser;
       dispatch(setUser({ user: user, token: res?.data?.accessToken }));
       toast.success("login in success", { id: toastId, duration: 2000 });

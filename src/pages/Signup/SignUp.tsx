@@ -27,8 +27,7 @@ const SignUp = () => {
         password: data.password,
       };
       const res = await signUp(userInfo).unwrap();
-      console.log(res);
-
+      // console.log(userInfo);
       toast.success("signUp success", { id: toastId, duration: 2000 });
       if (await res.success) {
         navigate("/login");

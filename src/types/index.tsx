@@ -1,51 +1,6 @@
-import { BaseQueryApi } from "@reduxjs/toolkit/query";
-
 /* eslint-disable @typescript-eslint/no-explicit-any */
-export interface TErrorMessage {
-  path: string;
-  message: string;
-}
-export type TError = {
-  data: {
-    message: string;
-    stack: string;
-    success: boolean;
-  };
-  status: number;
-};
 
-export type TQueryParam = {
-  name: string;
-  value: boolean | React.Key;
-};
-export type TResponse<T> = {
-  data?: T;
-  error?: TError;
-  meta?: TMeta;
-  success: boolean;
-  message: string;
-};
-
-export type TResponseRedux<T> = TResponse<T> & BaseQueryApi;
-
-export type TMeta = {
-  limit: number;
-  page: number;
-  total: number;
-  totalPage: number;
-};
-
-export interface TErrorResponse {
-  status: number;
-  data: {
-    errorMessages: any;
-    success: boolean;
-    message: string;
-    errorSources: TErrorMessage[];
-  };
-}
-
-export interface TSlot {
+export type TSlot = {
   _id: string;
   service: string;
   date: string;
@@ -55,7 +10,7 @@ export interface TSlot {
   __v: number;
   createdAt: string;
   updatedAt: string;
-}
+};
 
 export const userRole = {
   ADMIN: "admin",
@@ -84,7 +39,7 @@ export type TSlotWithService = {
   updatedAt: string;
 };
 
-export interface TService {
+export type TService = {
   _id: string;
   name: string;
   description: string;
@@ -94,9 +49,9 @@ export interface TService {
   createdAt: string;
   updatedAt: string;
   __v: number;
-}
+};
 
-export interface TReview {
+export type TReview = {
   _id: string;
   email: string;
   name: string;
@@ -105,7 +60,7 @@ export interface TReview {
   createdAt: string;
   updatedAt: string;
   __v: number;
-}
+};
 
 export type TUserResponse = {
   _id: string;

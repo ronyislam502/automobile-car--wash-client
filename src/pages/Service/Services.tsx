@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useGetServicesQuery } from "../../redux/features/service/serviceApi";
+import { useGetAllServicesQuery } from "../../redux/features/service/serviceApi";
 import { useAppDispatch } from "../../redux/hooks";
 import { TService } from "../../types";
 import { addServiceToCompare } from "../../redux/features/service/serviceCompareSlice";
@@ -34,8 +34,8 @@ const initialValues: TSearchFormValues = {
 
 const Services = () => {
   const [searchValues, setSearchValues] = useState(initialValues);
-  const { data: services } = useGetServicesQuery(searchValues);
-  console.log("services-error", services?.data?.result);
+  const { data: services } = useGetAllServicesQuery(searchValues);
+  console.log("services-error", services);
   const dispatch = useAppDispatch();
   const handleAddServiceToCompare = (service: TService) => {
     dispatch(addServiceToCompare(service));
@@ -91,8 +91,7 @@ const Services = () => {
         </Formik>
       </div>
       <div className="grid lg:grid-cols-3 grid-cols-1 gap-5">
-        {services?.data?.result?.map((item: TService) => {
-          console.log(services?.data);
+        {services?.data?.map((item: TService) => {
           return (
             <div
               key={item?._id}

@@ -1,22 +1,27 @@
+import { TService } from "../../../types";
+import { TResponseRedux } from "../../../types/global";
 import { baseApi } from "../../api/baseApi";
 
 const serviceApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllServices: builder.query({
       query: (args) => {
+        console.log(args);
+        const params = new URLSearchParams();
+        console.log(params);
+
         return {
-          url: `/services?search=${args?.keyword}&sortOrder=${args?.sort}&minDuration=${args?.minDuration}&maxDuration=${args?.maxDuration}`,
+          url: "/services",
           method: "GET",
-          body: args.data,
+          params: params,
         };
       },
-    }),
-    getServices: builder.query({
-      query: () => ({
-        url: "/services",
-        method: "GET",
-      }),
-      providesTags: ["service"],
+      transformResponse: (response: TResponseRedux<TService[]>) => {
+        return {
+          data: response.data,
+          meta: response.meta,
+        };
+      },
     }),
     getSingleService: builder.query({
       query: (id) => ({
@@ -57,7 +62,6 @@ export const {
   useCreateServiceMutation,
   useGetSingleServiceQuery,
   useDeleteServiceMutation,
-  useGetAllServicesQuery,
   useUpdateServiceMutation,
-  useGetServicesQuery,
+  useGetAllServicesQuery,
 } = serviceApi;
