@@ -26,7 +26,7 @@ type TRoute = {
 const adminRoutes = [
   {
     path: "/admin-home",
-    name: "Admin-Home",
+    name: "Admin Home",
   },
   {
     path: "/service-management",
