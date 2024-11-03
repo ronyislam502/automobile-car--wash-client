@@ -30,9 +30,8 @@ type TInitialValues = {
 const UserManagement = () => {
   const { data: users } = useGetAllUsersQuery(undefined);
   const [updateUser] = useUpdateUserMutation();
-
   const [isUserUpdateModalOpen, setUserUpdateModalOpen] = useState(false);
-  console.log(users);
+
   const [userInfo, setUserInfo] = useState<TUserResponse | null>(null);
 
   const initialValues: TInitialValues = {
@@ -98,7 +97,7 @@ const UserManagement = () => {
                       }}
                       className="btn btn-outline btn-info btn-sm"
                     >
-                      Edit
+                      {user.role === "admin" && "user" ? "User" : "Admin"}
                     </button>
                   </td>
                 </tr>

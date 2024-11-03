@@ -59,12 +59,18 @@ const userRoutes = [
     name: "Profile",
   },
   {
-    path: "/past-bookings",
-    name: "Past Bookings",
-  },
-  {
-    path: "/upcoming-bookings",
-    name: "Upcoming Bookings",
+    path: "/bookings",
+    name: "Bookings",
+    children: [
+      {
+        path: "/past-bookings",
+        name: "Past Bookings",
+      },
+      {
+        path: "/upcoming-bookings",
+        name: "Upcoming Bookings",
+      },
+    ],
   },
 ];
 

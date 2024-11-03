@@ -26,7 +26,7 @@ const bookingApi = baseApi.injectEndpoints({
     }),
     getMyBookings: builder.query({
       query: (bookingInfo) => ({
-        url: "/my-bookings",
+        url: `/bookings/user-bookings`,
         method: "GET",
         body: bookingInfo,
       }),
