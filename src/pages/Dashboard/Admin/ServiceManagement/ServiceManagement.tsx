@@ -11,6 +11,7 @@ import {
 import { TError } from "../../../../types/global";
 import AddService from "./ServiceCompo/AddService";
 import Modal from "../../../../components/shared/Modal";
+import SectionTitle from "../../../../components/shared/SectionTitle";
 
 type TInitialValues = {
   name: string;
@@ -76,6 +77,7 @@ const ServiceManagement = () => {
 
   return (
     <div>
+      <SectionTitle heading="Service Management" />
       <AddService />
       <div className="overflow-x-auto px-6">
         <table className="table table-zebra">

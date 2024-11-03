@@ -26,7 +26,7 @@ const slotApi = baseApi.injectEndpoints({
     }),
     createSlot: builder.mutation({
       query: (slotInfo) => ({
-        url: "/services/slots",
+        url: "/slots/create-slot",
         method: "POST",
         body: slotInfo,
       }),
@@ -34,7 +34,7 @@ const slotApi = baseApi.injectEndpoints({
     }),
     updateSlot: builder.mutation({
       query: (args) => ({
-        url: `/slots/${args.id}`,
+        url: `/slots/update/${args.id}`,
         method: "PATCH",
         body: args.data,
       }),

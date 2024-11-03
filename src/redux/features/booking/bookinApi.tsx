@@ -1,14 +1,28 @@
+import { TBooking } from "../../../types/booking.types";
+import { TResponseRedux } from "../../../types/global";
 import { baseApi } from "../../api/baseApi";
 
 const bookingApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllBookings: builder.query({
-      query: (bookingInfo) => ({
-        url: "/bookings",
-        method: "GET",
-        body: bookingInfo,
-      }),
+      query: (args) => {
+        console.log(args);
+        const params = new URLSearchParams();
+        console.log(params);
+
+        return {
+          url: "/bookings",
+          method: "GET",
+          params: params,
+        };
+      },
       providesTags: ["booking"],
+      transformResponse: (response: TResponseRedux<TBooking[]>) => {
+        return {
+          data: response.data,
+          meta: response.meta,
+        };
+      },
     }),
     getMyBookings: builder.query({
       query: (bookingInfo) => ({
