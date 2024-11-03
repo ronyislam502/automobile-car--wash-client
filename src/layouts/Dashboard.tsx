@@ -76,7 +76,6 @@ const userRoutes = [
 
 const Dashboard = () => {
   const user = useAppSelector(selectCurrentUser) as TUser;
-  console.log("error-user", user);
   let sidebarItems;
 
   switch (user && user.role) {

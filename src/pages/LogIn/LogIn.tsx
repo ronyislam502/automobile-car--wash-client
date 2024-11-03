@@ -2,11 +2,11 @@ import { useForm } from "react-hook-form";
 import { useLogInMutation } from "../../redux/features/auth/authApi";
 import { Link, useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../redux/hooks";
-import { setUser, TUser } from "../../redux/features/auth/authSlice";
+import { setUser } from "../../redux/features/auth/authSlice";
 import { toast } from "sonner";
-import { verifyToken } from "../../utilities/verifyToken";
 
 type TLogin = {
+  accessToken: string;
   email: string;
   password: string;
 };
@@ -25,11 +25,11 @@ const LogIn = () => {
         password: data.password,
       };
       const res = await logIn(userInfo).unwrap();
-      console.log("response", res);
+
       //   console.log(res);
-      const user = verifyToken(res?.data.accessToken) as TUser;
-      console.log("login-user", verifyToken);
-      dispatch(setUser({ user: user, token: res?.data?.accessToken }));
+      const user = res.data.user;
+      console.log("response", user);
+      dispatch(setUser({ user: user, token: res?.data.accessToken }));
       toast.success("login in success", { id: toastId, duration: 2000 });
       navigate("/");
     } catch (error) {
