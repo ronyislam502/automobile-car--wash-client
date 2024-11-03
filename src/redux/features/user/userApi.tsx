@@ -1,35 +1,38 @@
+import { TUserResponse } from "../../../types";
+import { TResponseRedux } from "../../../types/global";
 import { baseApi } from "../../api/baseApi";
 
 const userApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
     getAllUsers: builder.query({
-      query: (userInfo) => ({
-        url: "/users",
-        method: "GET",
-        body: userInfo,
-      }),
+      query: (args) => {
+        console.log(args);
+        const params = new URLSearchParams();
+        console.log(params);
+
+        return {
+          url: "/users",
+          method: "GET",
+          params: params,
+        };
+      },
       providesTags: ["user"],
+      transformResponse: (response: TResponseRedux<TUserResponse[]>) => {
+        return {
+          data: response.data,
+          meta: response.meta,
+        };
+      },
     }),
     updateUser: builder.mutation({
       query: ({ userData, id }) => ({
-        url: `/users/${id}`,
-        method: "PATCH",
+        url: `/users/update/${id}`,
+        method: "PUT",
         body: userData,
       }),
       invalidatesTags: ["user"],
     }),
-    singleUser: builder.query({
-      query: (email) => ({
-        url: `/users/${email}`,
-        method: "GET",
-      }),
-      providesTags: ["user"],
-    }),
   }),
 });
 
-export const {
-  useGetAllUsersQuery,
-  useUpdateUserMutation,
-  useSingleUserQuery,
-} = userApi;
+export const { useGetAllUsersQuery, useUpdateUserMutation } = userApi;
